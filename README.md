@@ -12,8 +12,13 @@ The project has two Django applications:
 
 Install the dependencies (make sure you are using a virtual environment): `pip install -r requirements.txt`
 
-Make sure the database migrations are applied: `python manage.py migrate`.
-
-You can then run the server with `python manage.py runserver`.
+Make sure the database migrations are applied: 
+```bash
+python manage.py migrate
+```
+You can then run the server with
+```bash 
+python manage.py runserver
+```
 
 Refer to [Django documentation](https://docs.djangoproject.com/en/) for more information.
