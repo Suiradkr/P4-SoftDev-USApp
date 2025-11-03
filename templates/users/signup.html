@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Sign up</title>
+    <style>
+      body { font-family: system-ui, -apple-system, 'Segoe UI', Roboto, Arial; padding: 2rem; }
+      .container { max-width: 420px; margin: 2rem auto; display:block;}
+      .errors { color: red; }
+       label { display:block; margin-top: 0.75rem; }
+      input { width:100%; padding: 0.5rem; margin-top: 0.25rem; }
+      button { margin-top: 1rem; padding: 0.6rem 1rem; }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+     
+
+      {% if created %}
+      <h1>Success!</h1>
+        <div class="message">Account for <strong>{{ username }}</strong> created successfully.</div>
+        <p><a href="{% url 'users:login' %}">Go to login</a></p>
+      {% else %}
+        <h1>Create account</h1>
+        {% if errors %}
+          <div class="errors">
+            <ul>
+              {% for e in errors %}
+                <li>{{ e }}</li>
+              {% endfor %}
+            </ul>
+          </div>
+        {% endif %}
+
+        <form method="post">
+          {% csrf_token %}
+
+          <label for="id_username">Username</label>
+          <input id="id_username" name="username" placeholder="Username" value="{{ form_data.username|default:'' }}" required />
+
+          <label for="id_password1">Password</label>
+          <input id="id_password1" name="password1" placeholder="Password" type="password" required />
+
+          <label for="id_password2">Confirm Password</label>
+          <input id="id_password2" name="password2" placeholder="Comfirm Password" type="password" required />
+
+          <button type="submit">Sign up</button>
+        </form>
+
+      {% endif %}
+
+    </div>
+  </body>
+</html>
