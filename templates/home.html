@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1>Home</h1>
+
+  {% if user.is_authenticated %}
+    <p>Showing reviews from people you follow. <a href="{% url 'reviews:all_reviews' %}">See reviews from all users</a></p>
+  {% else %}
+    <p>You are viewing the public feed of all reviews.</p>
+  {% endif %}
+
+  {% if reviews %}
+    <ul>
+      {% for review in reviews %}
+        <li>
+          <strong>{{ review.headline }}</strong> — by {{ review.user.full_name }}
+          <br>
+          Rating: {{ review.rating }} / 5
+          <p>{{ review.body|truncatechars:200 }}</p>
+          <small>Posted: {{ review.created }}</small>
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>No reviews yet.</p>
+  {% endif %}
+
+{% endblock %}

@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1>All reviews</h1>
+
+  {% if reviews %}
+    <ul>
+      {% for review in reviews %}
+        <li>
+          <strong>{{ review.headline }}</strong> — by {{ review.user.full_name }}
+          <br>
+          Rating: {{ review.rating }} / 5
+          <p>{{ review.body|truncatechars:200 }}</p>
+          <small>Posted: {{ review.created }}</small>
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>No reviews yet.</p>
+  {% endif %}
+
+  <p><a href="/">Back to home</a></p>
+
+{% endblock %}
