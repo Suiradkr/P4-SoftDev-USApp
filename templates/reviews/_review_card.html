@@ -1,0 +1,21 @@
+{% comment %}Reusable review card used by home and all_reviews{% endcomment %}
+<div class="review-card">
+  <div class="review-card-image">
+    {% if review.book.image %}
+      <a href="{% url 'reviews:book_detail' review.book.pk %}">
+        <img src="{{ review.book.image.url }}" alt="Cover for {{ review.book.title }}" />
+      </a>
+    {% else %}
+      <a href="{% url 'reviews:book_detail' review.book.pk %}">
+        <div class="no-image">No image</div>
+      </a>
+    {% endif %}
+  </div>
+  <div class="review-card-content">
+    <h3><a href="{% url 'reviews:book_detail' review.book.pk %}" style="color:inherit;text-decoration:none;">{{ review.book.title }}</a></h3>
+    <strong>{{ review.headline }}</strong> — by {{ review.user.full_name }}
+    <div>Rating: {{ review.rating }} / 5</div>
+    <p>{{ review.body|truncatechars:300 }}</p>
+    <small>Posted: {{ review.created }}</small>
+  </div>
+</div>

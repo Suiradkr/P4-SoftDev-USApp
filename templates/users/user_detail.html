@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1>{{ profile_user.full_name }}</h1>
+  <p>Username: {{ profile_user.username }}</p>
+
+  {% if request.user.is_authenticated and request.user != profile_user %}
+    <form method="post" action="{% url 'users:follow' profile_user.pk %}">
+      {% csrf_token %}
+      <button type="submit">{% if profile_user in request.user.following.all %}Unfollow{% else %}Follow{% endif %}</button>
+    </form>
+  {% endif %}
+
+  <p><a href="{% url 'users:profile' %}">Back to my profile</a></p>
+
+{% endblock %}

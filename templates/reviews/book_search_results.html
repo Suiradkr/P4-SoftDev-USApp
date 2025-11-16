@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1>Book search results</h1>
+
+  <form method="get" action="{% url 'reviews:book_search' %}">
+    <input type="search" name="q" placeholder="Search books by title" value="{{ request.GET.q }}" />
+    <button type="submit">Search</button>
+  </form>
+
+  {% if books %}
+    <ul class="review-list">
+      {% for book in books %}
+        <li class="review-item">
+          <div class="review-border">
+            <a href="{% url 'reviews:book_detail' book.pk %}"><strong>{{ book.title }}</strong></a>
+            <p>{{ book.description|truncatechars:200 }}</p>
+          </div>
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>No books match your search.</p>
+  {% endif %}
+
+{% endblock %}

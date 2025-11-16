@@ -24,6 +24,19 @@ class AllReviewsView(ListView):
 	template_name = 'reviews/all_reviews.html'
 	context_object_name = 'reviews'
 	queryset = Review.objects.all().order_by('-created')
+	paginate_by = 10
+
+
+class BookSearchView(ListView):
+	model = Book
+	template_name = 'reviews/book_search_results.html'
+	context_object_name = 'books'
+
+	def get_queryset(self):
+		q = self.request.GET.get('q', '').strip()
+		if not q:
+			return Book.objects.none()
+		return Book.objects.filter(title__icontains=q).order_by('title')
 
 
 class BookDetailView(DetailView):

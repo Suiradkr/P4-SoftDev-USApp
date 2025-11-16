@@ -4,17 +4,31 @@
   <h1>All reviews</h1>
 
   {% if reviews %}
-    <ul>
+    <ul class="review-list">
       {% for review in reviews %}
-        <li>
-          <strong>{{ review.headline }}</strong> — by {{ review.user.full_name }}
-          <br>
-          Rating: {{ review.rating }} / 5
-          <p>{{ review.body|truncatechars:200 }}</p>
-          <small>Posted: {{ review.created }}</small>
+        <li class="review-item">
+          {% include 'reviews/_review_card.html' %}
         </li>
       {% endfor %}
     </ul>
+
+    {% if is_paginated %}
+      <div class="pagination">
+        {% if page_obj.has_previous %}
+          <a href="?page={{ page_obj.previous_page_number }}">Previous</a>
+        {% else %}
+          <span>Previous</span>
+        {% endif %}
+
+        <span class="current">Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
+
+        {% if page_obj.has_next %}
+          <a href="?page={{ page_obj.next_page_number }}">Next</a>
+        {% else %}
+          <span>Next</span>
+        {% endif %}
+      </div>
+    {% endif %}
   {% else %}
     <p>No reviews yet.</p>
   {% endif %}

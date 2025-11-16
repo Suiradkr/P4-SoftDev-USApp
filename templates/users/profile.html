@@ -1,24 +1,29 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Profile — LIT Review</title>
-    <style>
-      body { font-family: system-ui, -apple-system, 'Segoe UI', Roboto, Arial; padding: 2rem; }
-      .container { max-width: 720px; margin: 2rem auto; }
-    </style>
-  </head>
-  <body>
-    <div class="container">
-      <h1>Profile</h1>
-      <p>Welcome, {{ user.get_full_name|default:user.username }}!</p>
-      <p>Email: {{ user.email }}</p>
-      <form method="post" action="{% url 'users:logout' %}">
-        {% csrf_token %}
-        <button type="submit">Log out</button>
-      </form>
-      <p><a href="/">Home</a></p>
-    </div>
-  </body>
-</html>
+{% extends 'base.html' %}
+
+{% block content %}
+  <style>
+    .profile-container { max-width:700px;margin:2rem auto; }
+    .meta { color:#666; }
+    form { display:inline; }
+  </style>
+
+  <div class="profile-container">
+    <h1>Profile: {{ user.full_name }}</h1>
+    <p class="meta">Username: {{ user.username }} — Email: {{ user.email }}</p>
+    <p>Following: {{ user.following.count }} users</p>
+
+    <form method="post" action="{% url 'users:logout' %}">
+      {% csrf_token %}
+      <button type="submit">Log out</button>
+    </form>
+    <a href="/" style="margin-left:0.75rem;">Back to home</a>
+
+    <hr>
+
+    <h2>Find users to follow</h2>
+    <form method="get" action="{% url 'users:search' %}">
+      <input type="search" name="q" placeholder="Type a name (e.g. 'tim')" style="padding:0.25rem;width:60%;"> 
+      <button type="submit">Search</button>
+    </form>
+  </div>
+{% endblock %}

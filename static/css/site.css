@@ -1,0 +1,35 @@
+/* Site-wide styles */
+body { font-family: system-ui, -apple-system, 'Segoe UI', Roboto, Arial; }
+.container { max-width: 1100px; margin: 2rem auto; padding: 0 1rem; }
+nav a { margin-right: 1rem; }
+
+/* Center page contents: center the inner content area and center text by default
+	but keep review card content left-aligned */
+.content-inner { width: 100%; max-width: 900px; margin: 0 auto; text-align: center; }
+.content-inner > * { margin-left: auto; margin-right: auto; }
+
+
+/* Review list/card */
+.review-list { list-style: none; padding: 0; margin: 0; }
+.review-item { margin-bottom: 1rem; }
+.review-card { border: 2px solid #cfcfcf; padding: 1rem; display: flex; gap: 1rem; align-items: flex-start; border-radius: 8px; box-shadow: 0 1px 2px rgba(0,0,0,0.04); background: #fff; }
+.review-card-image { flex: 0 0 120px; }
+.review-card-image img { width:120px; height:160px; object-fit:cover; display: block; border:1px solid #ddd; }
+.review-card-image .no-image { width:120px; height:160px; background:#f5f5f5; display:flex; align-items:center; justify-content:center; color:#999; border:1px solid #ddd; }
+.review-card-content { flex: 1; text-align: left; }
+
+/* Simple bordered review used on book detail page (no book info) */
+.review-border { border: 2px solid #cfcfcf; padding: 1rem; border-radius: 8px; background:#fff; box-shadow: 0 1px 2px rgba(0,0,0,0.04); }
+.review-border p { margin: 0.5rem 0; }
+
+/* Book detail page: left align content and cover styling */
+.page-left { text-align: left; }
+.book-cover { width:200px; height:260px; object-fit:cover; display:block; margin-bottom:1rem; border:1px solid #ddd; }
+.book-cover-placeholder { width:200px; height:260px; border:1px solid #ddd; display:flex; align-items:center; justify-content:center; margin-bottom:1rem; background:#f9f9f9; color:#666; }
+.review-card-content h3 { margin: 0 0 0.25rem 0; }
+.btn-primary { display:inline-block; margin-top:0.5rem; padding:0.45rem 0.6rem; background:#007bff; color:#fff; border-radius:4px; text-decoration:none; }
+
+/* Pagination */
+.pagination { margin-top: 1rem; }
+.pagination span, .pagination a { margin-right: 0.5rem; }
+.pagination .current { font-weight: bold; }

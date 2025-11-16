@@ -1,38 +1,33 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Login — LIT Review (global)</title>
-    <style>
-      body { font-family: system-ui, -apple-system, 'Segoe UI', Roboto, Arial; padding: 2rem; }
-      .container { max-width: 420px; margin: 2rem auto; }
-      label { display:block; margin-top: 0.75rem; }
-      input { width:100%; padding: 0.5rem; margin-top: 0.25rem; }
-      button { margin-top: 1rem; padding: 0.6rem 1rem; }
-      .errors { color: red; }
-    </style>
-  </head>
-  <body>
-    <div class="container">
-      <h1>Log in</h1>
+{% extends 'base.html' %}
 
-      {% if form.errors %}
-        <div class="errors">Please correct the errors below.</div>
-      {% endif %}
+{% block content %}
+  <style>
+    .login-container { max-width:420px;margin:2rem auto; }
+    .login-container label { display:block; margin-top:0.75rem; }
+    .login-container input { width:100%; padding:0.5rem; margin-top:0.25rem; }
+    .login-container button { margin-top:1rem; padding:0.6rem 1rem; }
+    .errors { color:red; }
+  </style>
 
-      <form method="post" action="{% url 'users:login' %}">
-        {% csrf_token %}
-        <label for="id_username">Username</label>
-        {{ form.username }}
+  <div class="login-container">
+    <h1>Log in</h1>
 
-        <label for="id_password">Password</label>
-        {{ form.password }}
+    {% if form.errors %}
+      <div class="errors">Please correct the errors below.</div>
+    {% endif %}
 
-        <button type="submit">Log in</button>
-      </form>
-      <h1>Don't have an account?</h1>
-      <button onclick="window.location.href='/users/signup/'">Sign up</button>
-    </div>
-  </body>
-</html>
+    <form method="post" action="{% url 'users:login' %}">
+      {% csrf_token %}
+      <label for="id_username">Username</label>
+      {{ form.username }}
+
+      <label for="id_password">Password</label>
+      {{ form.password }}
+
+      <button type="submit">Log in</button>
+    </form>
+
+  <h2>Don't have an account?</h2>
+  <a href="{% url 'users:signup' %}" style="display:inline-block;margin-top:0.5rem;padding:0.5rem 0.75rem;background:#007bff;color:#fff;border-radius:4px;text-decoration:none;">Sign up</a>
+  </div>
+{% endblock %}

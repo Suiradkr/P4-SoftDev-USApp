@@ -24,32 +24,44 @@
       {% else %}
         <h1>Create account</h1>
         {% if errors %}
-          <div class="errors">
-            <ul>
-              {% for e in errors %}
-                <li>{{ e }}</li>
-              {% endfor %}
-            </ul>
-          </div>
-        {% endif %}
+          {% extends 'base.html' %}
 
-        <form method="post">
-          {% csrf_token %}
+          {% block content %}
+            <style>
+              .signup-container { max-width:600px;margin:2rem auto; }
+              .signup-container label { display:block; margin-top:0.5rem; }
+              .signup-container input, .signup-container textarea { width:100%; padding:0.5rem; }
+              .signup-container button { margin-top:1rem; padding:0.6rem 1rem; }
+              .errors { color:red; }
+            </style>
 
-          <label for="id_username">Username</label>
-          <input id="id_username" name="username" placeholder="Username" value="{{ form_data.username|default:'' }}" required />
+            <div class="signup-container">
+              <h1>Sign up</h1>
+              {% if form.non_field_errors %}
+                <div class="errors">{{ form.non_field_errors }}</div>
+              {% endif %}
 
-          <label for="id_password1">Password</label>
-          <input id="id_password1" name="password1" placeholder="Password" type="password" required />
+              <form method="post" action="{% url 'users:signup' %}">
+                {% csrf_token %}
+                <label for="id_username">Username</label>
+                {{ form.username }}
 
-          <label for="id_password2">Confirm Password</label>
-          <input id="id_password2" name="password2" placeholder="Comfirm Password" type="password" required />
+                <label for="id_first_name">First name</label>
+                {{ form.first_name }}
 
-          <button type="submit">Sign up</button>
-        </form>
+                <label for="id_last_name">Last name</label>
+                {{ form.last_name }}
 
-      {% endif %}
+                <label for="id_email">Email</label>
+                {{ form.email }}
 
-    </div>
-  </body>
-</html>
+                <label for="id_password1">Password</label>
+                {{ form.password1 }}
+
+                <label for="id_password2">Confirm password</label>
+                {{ form.password2 }}
+
+                <button type="submit">Create account</button>
+              </form>
+            </div>
+          {% endblock %}
