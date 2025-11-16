@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1>{{ book.title }}</h1>
+
+  {% if image_exists %}
+    <img src="{{ book.image.url }}" alt="Cover for {{ book.title }}" style="max-width:200px; display:block; margin-bottom:1rem;">
+  {% else %}
+    <div style="width:200px;height:260px;border:1px solid #ddd;display:flex;align-items:center;justify-content:center;margin-bottom:1rem;">No cover image</div>
+  {% endif %}
+
+  <p>{{ book.description }}</p>
+
+  <h2>Reviews</h2>
+
+  {% if user.is_authenticated %}
+    {% if user_has_review %}
+      <p>You already posted a review for this book. <a href="{% url 'reviews:edit_review' book.pk user_review.pk %}">Edit</a></p>
+    {% else %}
+      <p><a href="{% url 'reviews:create_review' book.pk %}">Post a review for this book</a></p>
+    {% endif %}
+  {% else %}
+    <p><a href="{% url 'users:login' %}">Log in</a> or <a href="{% url 'users:signup' %}">sign up</a> to post a review for this book.</p>
+  {% endif %}
+
+  {% if reviews %}
+    <ul>
+      {% for review in reviews %}
+        <li>
+          <strong>{{ review.headline }}</strong> — by {{ review.user.full_name }}
+          <br>
+          Rating: {{ review.rating }} / 5
+          <p>{{ review.body }}</p>
+          <small>Posted: {{ review.created }}</small>
+          {% if user.is_authenticated and review.user == user %}
+            <p>
+              <a href="{% url 'reviews:edit_review' book.pk review.pk %}">Edit</a>
+              |
+              <a href="{% url 'reviews:delete_review' book.pk review.pk %}">Delete</a>
+            </p>
+          {% endif %}
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>No reviews yet.</p>
+  {% endif %}
+
+  <p><a href="/">Back to home</a></p>
+
+{% endblock %}
