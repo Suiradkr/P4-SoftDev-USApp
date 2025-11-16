@@ -78,6 +78,13 @@ class CreateReviewView(LoginRequiredMixin, CreateView):
 		messages.success(self.request, 'Review posted.')
 		return response
 
+
+	def get_context_data(self, **kwargs):
+		ctx = super().get_context_data(**kwargs)
+		book_pk = self.kwargs.get('pk')
+		ctx['book'] = get_object_or_404(Book, pk=book_pk)
+		return ctx
+
 	def get_success_url(self):
 		return reverse('reviews:book_detail', kwargs={'pk': self.kwargs.get('pk')})
 
@@ -92,7 +99,6 @@ class CreateBookView(LoginRequiredMixin, CreateView):
 		title = form.cleaned_data.get('title')
 		existing = Book.objects.filter(title__iexact=title).first()
 		if existing:
-			# attach a non-field error and re-render the form page
 			form.add_error(None, 'A book with that title already exists.')
 			return self.form_invalid(form)
 
@@ -131,6 +137,13 @@ class EditReviewView(LoginRequiredMixin, ReviewOwnerMixin, UpdateView):
 		# book pk is in URL kwargs
 		return reverse('reviews:book_detail', kwargs={'pk': self.kwargs.get('pk')})
 
+	def get_context_data(self, **kwargs):
+		ctx = super().get_context_data(**kwargs)
+		# the review object is the object being edited; add its book to context
+		review = self.get_object()
+		ctx['book'] = review.book
+		return ctx
+
 
 class DeleteReviewView(LoginRequiredMixin, ReviewOwnerMixin, DeleteView):
 	model = Review
@@ -139,3 +152,9 @@ class DeleteReviewView(LoginRequiredMixin, ReviewOwnerMixin, DeleteView):
 
 	def get_success_url(self):
 		return reverse('reviews:book_detail', kwargs={'pk': self.kwargs.get('pk')})
+
+	def get_context_data(self, **kwargs):
+		ctx = super().get_context_data(**kwargs)
+		review = self.get_object()
+		ctx['book'] = review.book
+		return ctx

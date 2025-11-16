@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  {% if object %}
+    <h1>Edit review for "{{ book.title }}"</h1>
+  {% else %}
+    <h1>Post a review for "{{ book.title }}"</h1>
+  {% endif %}
+
+  <form method="post">
+    {% csrf_token %}
+    {% if form.non_field_errors %}
+      <div class="errors">{{ form.non_field_errors }}</div>
+    {% endif %}
+
+    <p>
+      {{ form.headline.label_tag }}<br>
+      {{ form.headline }}
+      {% if form.headline.errors %}
+        <div class="errors">{{ form.headline.errors }}</div>
+      {% endif %}
+    </p>
+
+    <p>
+      {{ form.rating.label_tag }}<br>
+      {{ form.rating }}
+      {% if form.rating.errors %}
+        <div class="errors">{{ form.rating.errors }}</div>
+      {% endif %}
+    </p>
+
+    <p>
+      {{ form.body.label_tag }}<br>
+      {{ form.body }}
+      {% if form.body.errors %}
+        <div class="errors">{{ form.body.errors }}</div>
+      {% endif %}
+    </p>
+
+    <div>
+      <button type="submit">Save</button>
+      <a href="{% url 'reviews:book_detail' book.pk %}">Cancel</a>
+    </div>
+  </form>
+
+{% endblock %}
