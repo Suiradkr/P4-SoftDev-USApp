@@ -1,16 +1,54 @@
 {% extends 'base.html' %}
 
 {% block content %}
-  <h1>{{ profile_user.full_name }}</h1>
-  <p>Username: {{ profile_user.username }}</p>
+  <div class="d-flex justify-content-between align-items-start mb-3">
+    <div>
+      <h1 class="h4 mb-0">{{ profile_user.full_name }}</h1>
+      <div class="text-muted">@{{ profile_user.username }}</div>
+    </div>
+    <div class="text-end">
+      <p class="mb-1">Following: <strong>{{ following_count }}</strong></p>
+      <p class="mb-1">Followers: <strong>{{ followers_count }}</strong></p>
+      {% if request.user.is_authenticated and request.user != profile_user %}
+        <form method="post" action="{% url 'users:follow' profile_user.pk %}">
+          {% csrf_token %}
+          <button class="btn btn-sm btn-outline-primary" type="submit">{% if is_following %}Unfollow{% else %}Follow{% endif %}</button>
+        </form>
+      {% endif %}
+    </div>
+  </div>
 
-  {% if request.user.is_authenticated and request.user != profile_user %}
-    <form method="post" action="{% url 'users:follow' profile_user.pk %}">
-      {% csrf_token %}
-      <button type="submit">{% if profile_user in request.user.following.all %}Unfollow{% else %}Follow{% endif %}</button>
-    </form>
+  <p><a href="{% url 'users:profile' %}" class="btn btn-link">Back to my profile</a></p>
+
+  <hr>
+
+  <h2>Reviews by {{ profile_user.full_name }}</h2>
+
+  {% if reviews %}
+    <ul class="review-list">
+      {% for review in reviews %}
+        <li class="review-item">
+          <div class="review-border">
+            <a href="{% url 'reviews:book_detail' review.book.pk %}"><strong>{{ review.book.title }}</strong></a>
+            <div><strong>{{ review.headline }}</strong> — by {{ review.user.full_name }}</div>
+            <div>Rating: {{ review.rating }} / 5</div>
+            <p>{{ review.body }}</p>
+            <small>Posted: {{ review.created }}</small>
+          </div>
+
+          {% if request.user.is_authenticated and request.user == profile_user %}
+            <p>
+              <a href="{% url 'reviews:edit_review' review.book.pk review.pk %}">Edit</a>
+              |
+              <a href="{% url 'reviews:delete_review' review.book.pk review.pk %}">Delete</a>
+            </p>
+          {% endif %}
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>No reviews yet.</p>
   {% endif %}
 
-  <p><a href="{% url 'users:profile' %}">Back to my profile</a></p>
-
 {% endblock %}
+

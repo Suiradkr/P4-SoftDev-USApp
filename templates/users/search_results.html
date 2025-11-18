@@ -3,28 +3,33 @@
 {% block content %}
   <h1>Find users to follow</h1>
 
-  <form method="get" action="{% url 'users:search' %}">
-    <input type="search" name="q" placeholder="Search users by name or username" value="{{ query }}" />
-    <button type="submit">Search</button>
+  <form method="get" action="{% url 'users:search' %}" class="d-flex mb-3">
+    <input class="form-control me-2" type="search" name="q" placeholder="Search users by name or username" value="{{ query }}" />
+    <button class="btn btn-primary" type="submit">Search</button>
   </form>
 
   {% if results %}
-    <ul>
+    <div class="list-group">
       {% for u in results %}
-        <li>
-          <a href="{% url 'users:profile_detail' u.pk %}">{{ u.full_name }}</a> — {{ u.username }}
-          {% if request.user.is_authenticated and request.user != u %}
-            <form method="post" action="{% url 'users:follow' u.pk %}" style="display:inline;margin-left:0.5rem;">
-              {% csrf_token %}
-              <button type="submit">{% if u.pk in following_ids %}Unfollow{% else %}Follow{% endif %}</button>
-            </form>
-          {% endif %}
-        </li>
+        <div class="list-group-item d-flex justify-content-between align-items-center">
+          <div>
+            <a href="{% url 'users:profile_detail' u.pk %}"><strong>{{ u.full_name }}</strong></a>
+            <div class="text-muted">{{ u.username }}</div>
+          </div>
+          <div>
+            {% if request.user.is_authenticated and request.user != u %}
+              <form method="post" action="{% url 'users:follow' u.pk %}">
+                {% csrf_token %}
+                <button class="btn btn-sm btn-outline-primary" type="submit">{% if u.pk in following_ids %}Unfollow{% else %}Follow{% endif %}</button>
+              </form>
+            {% endif %}
+          </div>
+        </div>
       {% endfor %}
-    </ul>
+    </div>
   {% else %}
     {% if query %}
-      <p>No users found for "{{ query }}".</p>
+      <div class="alert alert-warning">No users found for "{{ query }}".</div>
     {% endif %}
   {% endif %}
 

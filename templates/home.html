@@ -1,24 +1,19 @@
 {% extends 'base.html' %}
 
 {% block content %}
-  <h1>Home</h1>
-
-  {% if user.is_authenticated %}
-    <p>Showing reviews from people you follow. <a href="{% url 'reviews:all_reviews' %}">See reviews from all users</a></p>
-  {% else %}
-    <p>You are viewing the public feed of all reviews.</p>
-  {% endif %}
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h1 class="h3 mb-0">Home</h1>
+    <a class="btn btn-outline-secondary" href="{% url 'reviews:all_reviews' %}">See reviews from all users</a>
+  </div>
 
   {% if reviews %}
-    <ul class="review-list">
+    <div>
       {% for review in reviews %}
-        <li class="review-item">
-          {% include 'reviews/_review_card.html' %}
-        </li>
+        {% include 'reviews/_review_card.html' %}
       {% endfor %}
-    </ul>
+    </div>
   {% else %}
-    <p>No reviews yet.</p>
+    <div class="alert alert-info">No reviews yet.</div>
   {% endif %}
 
 {% endblock %}

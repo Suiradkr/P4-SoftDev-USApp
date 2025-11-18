@@ -1,21 +1,41 @@
 {% comment %}Reusable review card used by home and all_reviews{% endcomment %}
-<div class="review-card">
-  <div class="review-card-image">
-    {% if review.book.image %}
-      <a href="{% url 'reviews:book_detail' review.book.pk %}">
-        <img src="{{ review.book.image.url }}" alt="Cover for {{ review.book.title }}" />
-      </a>
-    {% else %}
-      <a href="{% url 'reviews:book_detail' review.book.pk %}">
-        <div class="no-image">No image</div>
-      </a>
+{% if as_border %}
+  <div class="review-border mb-3">
+    <h5 class="mb-1">{{ review.headline }}</h5>
+    <div class="text-muted mb-2">by {{ review.user.full_name }}</div>
+    <p class="mb-1"><span class="badge bg-secondary">Rating: {{ review.rating }} / 5</span></p>
+    <p class="mb-2">{{ review.body }}</p>
+    <p class="text-muted"><small>Posted: {{ review.created }}</small></p>
+    {% if user.is_authenticated and review.user == user %}
+      <div class="mt-2">
+        <a href="{% url 'reviews:edit_review' review.book.pk review.pk %}" class="btn btn-sm btn-outline-secondary">Edit</a>
+        <a href="{% url 'reviews:delete_review' review.book.pk review.pk %}" class="btn btn-sm btn-outline-danger">Delete</a>
+      </div>
     {% endif %}
   </div>
-  <div class="review-card-content">
-    <h3><a href="{% url 'reviews:book_detail' review.book.pk %}" style="color:inherit;text-decoration:none;">{{ review.book.title }}</a></h3>
-    <strong>{{ review.headline }}</strong> — by {{ review.user.full_name }}
-    <div>Rating: {{ review.rating }} / 5</div>
-    <p>{{ review.body|truncatechars:300 }}</p>
-    <small>Posted: {{ review.created }}</small>
+{% else %}
+  <div class="card mb-3">
+    <div class="row g-0 align-items-start">
+        <div class="col-auto review-card-image">
+          {% if review.book.image %}
+            <a href="{% url 'reviews:book_detail' review.book.pk %}">
+              <img src="{{ review.book.image.url }}" alt="Cover for {{ review.book.title }}" class="img-fluid review-card-thumb">
+            </a>
+          {% else %}
+            <a href="{% url 'reviews:book_detail' review.book.pk %}">
+              <div class="bg-light d-flex align-items-center justify-content-center no-image">No image</div>
+            </a>
+          {% endif %}
+        </div>
+      <div class="col">
+        <div class="card-body">
+          <h5 class="card-title"><a href="{% url 'reviews:book_detail' review.book.pk %}" class="text-decoration-none text-dark">{{ review.book.title }}</a></h5>
+          <p class="mb-1"><strong>{{ review.headline }}</strong> — <small class="text-muted">{{ review.user.full_name }}</small></p>
+          <p class="mb-1"><span class="badge bg-secondary">Rating: {{ review.rating }} / 5</span></p>
+          <p class="card-text">{{ review.body|truncatechars:300 }}</p>
+          <p class="card-text"><small class="text-muted">Posted: {{ review.created }}</small></p>
+        </div>
+      </div>
+    </div>
   </div>
-</div>
+{% endif %}

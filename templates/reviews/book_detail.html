@@ -2,54 +2,42 @@
 
 {% block content %}
   <div class="page-left">
-    <h1>{{ book.title }}</h1>
+    <div class="row mb-4">
+      <div class="col-md-4">
+        {% if image_exists %}
+          <img src="{{ book.image.url }}" alt="Cover for {{ book.title }}" class="img-fluid rounded book-cover">
+        {% else %}
+          <div class="book-cover-placeholder">No cover image</div>
+        {% endif %}
+      </div>
+      <div class="col-md-8">
+        <h1>{{ book.title }}</h1>
+        <p>{{ book.description }}</p>
+        {% if user.is_authenticated %}
+          {% if user_has_review %}
+            <p class="mb-0">You already posted a review for this book. <a href="{% url 'reviews:edit_review' book.pk user_review.pk %}">Edit</a></p>
+          {% else %}
+            <a class="btn btn-primary" href="{% url 'reviews:create_review' book.pk %}">Post a review for this book</a>
+          {% endif %}
+        {% else %}
+          <p><a href="{% url 'users:login' %}">Log in</a> or <a href="{% url 'users:signup' %}">sign up</a> to post a review for this book.</p>
+        {% endif %}
+      </div>
+    </div>
 
-    {% if image_exists %}
-      <img src="{{ book.image.url }}" alt="Cover for {{ book.title }}" class="book-cover">
-    {% else %}
-      <div class="book-cover-placeholder">No cover image</div>
-    {% endif %}
-
-    <p>{{ book.description }}</p>
-
-    <h2>Reviews</h2>
-
-    {% if user.is_authenticated %}
-      {% if user_has_review %}
-        <p>You already posted a review for this book. <a href="{% url 'reviews:edit_review' book.pk user_review.pk %}">Edit</a></p>
-      {% else %}
-        <p><a href="{% url 'reviews:create_review' book.pk %}">Post a review for this book</a></p>
-      {% endif %}
-    {% else %}
-      <p><a href="{% url 'users:login' %}">Log in</a> or <a href="{% url 'users:signup' %}">sign up</a> to post a review for this book.</p>
-    {% endif %}
+    <h2 class="h5">Reviews</h2>
 
     {% if reviews %}
-      <ul class="review-list">
+      <div>
         {% for review in reviews %}
-          <li class="review-item">
-            <div class="review-border">
-              <strong>{{ review.headline }}</strong> — by {{ review.user.full_name }}
-              <div>Rating: {{ review.rating }} / 5</div>
-              <p>{{ review.body }}</p>
-              <small>Posted: {{ review.created }}</small>
-            </div>
-
-            {% if user.is_authenticated and review.user == user %}
-              <p>
-                <a href="{% url 'reviews:edit_review' book.pk review.pk %}">Edit</a>
-                |
-                <a href="{% url 'reviews:delete_review' book.pk review.pk %}">Delete</a>
-              </p>
-            {% endif %}
-          </li>
+          {% include 'reviews/_review_card.html' with as_border=True %}
         {% endfor %}
-      </ul>
+      </div>
     {% else %}
-      <p>No reviews yet.</p>
+      <div class="alert alert-info">No reviews yet.</div>
     {% endif %}
 
-    <p><a href="/">Back to home</a></p>
+    <p><a href="/" class="btn btn-link">Back to home</a></p>
   </div>
 
 {% endblock %}

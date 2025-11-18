@@ -1,29 +1,26 @@
 {% extends 'base.html' %}
 
 {% block content %}
-  <style>
-    .profile-container { max-width:700px;margin:2rem auto; }
-    .meta { color:#666; }
-    form { display:inline; }
-  </style>
+  
 
   <div class="profile-container">
-    <h1>Profile: {{ user.full_name }}</h1>
-    <p class="meta">Username: {{ user.username }} — Email: {{ user.email }}</p>
-    <p>Following: {{ user.following.count }} users</p>
-
-    <form method="post" action="{% url 'users:logout' %}">
-      {% csrf_token %}
-      <button type="submit">Log out</button>
-    </form>
-    <a href="/" style="margin-left:0.75rem;">Back to home</a>
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <div>
+        <h1 class="h4 mb-0">{{ user.full_name }}</h1>
+        <p class="meta mb-0">Username: {{ user.username }} — Email: {{ user.email }}</p>
+      </div>
+      <div class="text-end">
+        <p class="mb-1">Following: <span class="fw-bold">{{ following_count }}</span></p>
+        <p class="mb-1">Followers: <span class="fw-bold">{{ followers_count }}</span></p>
+      </div>
+    </div>
 
     <hr>
 
-    <h2>Find users to follow</h2>
-    <form method="get" action="{% url 'users:search' %}">
-      <input type="search" name="q" placeholder="Type a name (e.g. 'tim')" style="padding:0.25rem;width:60%;"> 
-      <button type="submit">Search</button>
+    <h2 class="h5">Find users to follow</h2>
+    <form method="get" action="{% url 'users:search' %}" class="d-flex mb-3">
+      <input type="search" name="q" placeholder="Type a name" class="form-control me-2"> 
+      <button class="btn btn-primary" type="submit">Search</button>
     </form>
   </div>
 {% endblock %}

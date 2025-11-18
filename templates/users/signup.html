@@ -1,67 +1,57 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Sign up</title>
-    <style>
-      body { font-family: system-ui, -apple-system, 'Segoe UI', Roboto, Arial; padding: 2rem; }
-      .container { max-width: 420px; margin: 2rem auto; display:block;}
-      .errors { color: red; }
-       label { display:block; margin-top: 0.75rem; }
-      input { width:100%; padding: 0.5rem; margin-top: 0.25rem; }
-      button { margin-top: 1rem; padding: 0.6rem 1rem; }
-    </style>
-  </head>
-  <body>
-    <div class="container">
-     
+{% extends 'base.html' %}
 
-      {% if created %}
-      <h1>Success!</h1>
-        <div class="message">Account for <strong>{{ username }}</strong> created successfully.</div>
-        <p><a href="{% url 'users:login' %}">Go to login</a></p>
-      {% else %}
-        <h1>Create account</h1>
-        {% if errors %}
-          {% extends 'base.html' %}
+{% block content %}
+  <div class="signup-container">
+    {% if created %}
+      <div class="alert alert-success">
+        Account for <strong>{{ username }}</strong> created successfully.
+      </div>
+      <p><a href="{% url 'users:login' %}">Go to login</a></p>
+    {% else %}
+      <div class="card">
+        <div class="card-body">
+          <h2 class="card-title mb-3">Create account</h2>
 
-          {% block content %}
-            <style>
-              .signup-container { max-width:600px;margin:2rem auto; }
-              .signup-container label { display:block; margin-top:0.5rem; }
-              .signup-container input, .signup-container textarea { width:100%; padding:0.5rem; }
-              .signup-container button { margin-top:1rem; padding:0.6rem 1rem; }
-              .errors { color:red; }
-            </style>
-
-            <div class="signup-container">
-              <h1>Sign up</h1>
-              {% if form.non_field_errors %}
-                <div class="errors">{{ form.non_field_errors }}</div>
-              {% endif %}
-
-              <form method="post" action="{% url 'users:signup' %}">
-                {% csrf_token %}
-                <label for="id_username">Username</label>
-                {{ form.username }}
-
-                <label for="id_first_name">First name</label>
-                {{ form.first_name }}
-
-                <label for="id_last_name">Last name</label>
-                {{ form.last_name }}
-
-                <label for="id_email">Email</label>
-                {{ form.email }}
-
-                <label for="id_password1">Password</label>
-                {{ form.password1 }}
-
-                <label for="id_password2">Confirm password</label>
-                {{ form.password2 }}
-
-                <button type="submit">Create account</button>
-              </form>
+          {% if errors %}
+            <div class="alert alert-danger">
+              <ul class="mb-0">
+                {% for e in errors %}
+                  <li>{{ e }}</li>
+                {% endfor %}
+              </ul>
             </div>
-          {% endblock %}
+          {% endif %}
+
+          <form method="post" action="{% url 'users:signup' %}">
+            {% csrf_token %}
+            <div class="mb-3">
+              <label for="id_username" class="form-label">Username</label>
+              <input id="id_username" name="username" class="form-control" value="{{ form_data.username|default:'' }}">
+            </div>
+            <div class="mb-3">
+              <label for="id_first_name" class="form-label">First name</label>
+              <input id="id_first_name" name="first_name" class="form-control" value="{{ form_data.first_name|default:'' }}">
+            </div>
+            <div class="mb-3">
+              <label for="id_last_name" class="form-label">Last name</label>
+              <input id="id_last_name" name="last_name" class="form-control" value="{{ form_data.last_name|default:'' }}">
+            </div>
+            <div class="mb-3">
+              <label for="id_email" class="form-label">Email</label>
+              <input id="id_email" name="email" type="email" class="form-control" value="{{ form_data.email|default:'' }}">
+            </div>
+            <div class="mb-3">
+              <label for="id_password1" class="form-label">Password</label>
+              <input id="id_password1" name="password1" type="password" class="form-control">
+            </div>
+            <div class="mb-3">
+              <label for="id_password2" class="form-label">Confirm password</label>
+              <input id="id_password2" name="password2" type="password" class="form-control">
+            </div>
+            <button class="btn btn-primary" type="submit">Create account</button>
+          </form>
+        </div>
+      </div>
+    {% endif %}
+  </div>
+{% endblock %}
