@@ -1,0 +1,199 @@
+[
+{
+  "model": "users.user",
+  "fields": {
+    "password": "pbkdf2_sha256$1000000$fEjsb5tPUsBRb4IyyqFC7F$5rim0NdW9CHcOvR+TFJ8RKRvbFxdHTNpoB+nTn/arLU=",
+    "last_login": "2025-11-23T22:08:40.065Z",
+    "is_superuser": true,
+    "username": "darius",
+    "email": "darius@gmail.com",
+    "is_staff": true,
+    "is_active": true,
+    "date_joined": "2025-10-17T17:30:23Z",
+    "first_name": "Darius",
+    "last_name": "Roberts",
+    "groups": [],
+    "user_permissions": [],
+    "following": [
+      3,
+      4
+    ]
+  }
+},
+{
+  "model": "users.user",
+  "fields": {
+    "password": "pbkdf2_sha256$1000000$Ea4sG3IXFmkFsOA5Yp9G8v$cJ0jsEdfJcLCKOUc6h8jfYsdQehqeav+rQSCoOHuhOo=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "mark",
+    "email": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2025-10-22T23:06:36Z",
+    "first_name": "Mark",
+    "last_name": "Clark",
+    "groups": [],
+    "user_permissions": [],
+    "following": []
+  }
+},
+{
+  "model": "users.user",
+  "fields": {
+    "password": "pbkdf2_sha256$1000000$nYTib0thLNMOBqn4rzG7Mb$OcR99m30VzRZiMF4/Kd6voKa216zXZRScvGbO4LefFo=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "Max",
+    "email": "max@gmail.com",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2025-10-25T17:56:25Z",
+    "first_name": "Max",
+    "last_name": "Smalls",
+    "groups": [],
+    "user_permissions": [],
+    "following": [
+      1
+    ]
+  }
+},
+{
+  "model": "users.user",
+  "fields": {
+    "password": "pbkdf2_sha256$1000000$DF1nCfi6hkfHdnH5Q6rNyf$edAmEUZ6Dg+h5mr9XrllA3hQNvR+g0cBmxYgBaNJoTw=",
+    "last_login": "2025-11-23T22:11:31.956Z",
+    "is_superuser": false,
+    "username": "Julia",
+    "email": "julia@gmail.com",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2025-11-04T20:35:51Z",
+    "first_name": "Julia",
+    "last_name": "Godwin",
+    "groups": [],
+    "user_permissions": [],
+    "following": [
+      1,
+      3
+    ]
+  }
+},
+{
+  "model": "users.user",
+  "fields": {
+    "password": "pbkdf2_sha256$1000000$3ncS4gmgGfUyUOMNqbgNRe$Kagv0bE0WEq1XY6/dTnqibh0lOxj1ZvfWfbTWOfwteA=",
+    "last_login": "2025-11-18T02:03:21.781Z",
+    "is_superuser": false,
+    "username": "BookWorm247",
+    "email": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2025-11-18T02:02:24.979Z",
+    "first_name": "",
+    "last_name": "",
+    "groups": [],
+    "user_permissions": [],
+    "following": [
+      1
+    ]
+  }
+},
+{
+  "model": "users.user",
+  "fields": {
+    "password": "pbkdf2_sha256$1000000$QfqMcsJajvYfxMWqTySoyF$2NXzOCUWWMwC2659t1L8Ps05LFNO5yfteB4oUjA05EE=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "test1",
+    "email": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2025-11-19T23:36:49.579Z",
+    "first_name": "",
+    "last_name": "",
+    "groups": [],
+    "user_permissions": [],
+    "following": []
+  }
+},
+{
+  "model": "reviews.book",
+  "pk": 1,
+  "fields": {
+    "title": "Fundamentals of Pathology",
+    "image": "fundamentals_of_pathology.jpg",
+    "description": "Describes the study of disease, focusing on its cause, mechanisms, and effects to help in diagnosis and treatment. It involves understanding how disease impacts cells and organs and provides the scientific basis for clinical medicine, encompassing general principles of cell injury, inflammation, and the immune response, along with the analysis of tissues, bodily fluids, and other specimens.",
+    "created": "2025-11-04T20:16:47.891Z"
+  }
+},
+{
+  "model": "reviews.book",
+  "pk": 2,
+  "fields": {
+    "title": "First Aid for the USMLE Step 1 2023",
+    "image": "First_Aid_for_the_USMLE.jpg",
+    "description": "a veritable blueprint for preparing for this critical exam, revealing all the content you’ll encounter on test day. This unmatched text is written by carefully chosen students who excelled on the Step 1 exam, it’s reviewed by top faculty―all the ensure that the content is relevant, high-yield, and accurate―and it’s organized and formatted in ways that help you easily hone in on the most important content.",
+    "created": "2025-11-04T20:26:52.940Z"
+  }
+},
+{
+  "model": "reviews.book",
+  "pk": 3,
+  "fields": {
+    "title": "The Da Vinci Code",
+    "image": "The_Da_Vinci_Code.jpg",
+    "description": "A mystery thriller where a Harvard symbologist, Robert Langdon, and a French cryptologist, Sophie Neveu, follow a trail of clues left in Leonardo da Vinci's works to uncover a historical secret about the Holy Grail and its connection to Jesus and Mary Magdalene",
+    "created": "2025-11-04T20:33:21.196Z"
+  }
+},
+{
+  "model": "reviews.book",
+  "pk": 4,
+  "fields": {
+    "title": "Test",
+    "image": "Test_image.jpg",
+    "description": "testing",
+    "created": "2025-11-15T22:15:36.197Z"
+  }
+},
+{
+  "model": "reviews.review",
+  "pk": 1,
+  "fields": {
+    "headline": "Very tough read",
+    "body": "I'm only reading this for medical school and I only recommend this book if you are planning to take the Step 1 exam.",
+    "rating": 4,
+    "book": 2,
+    "user": 4,
+    "created": "2025-11-04T20:42:44.856Z",
+    "updated": "2025-11-04T20:42:44.856Z"
+  }
+},
+{
+  "model": "reviews.review",
+  "pk": 2,
+  "fields": {
+    "headline": "A Medical School Neccessity",
+    "body": "If you are attending or plan to attend medical school then I 1000% recommend this book! This book contains the vital information needed to do well in medical school",
+    "rating": 5,
+    "book": 1,
+    "user": 4,
+    "created": "2025-11-04T20:51:24.147Z",
+    "updated": "2025-11-23T22:39:05.318Z"
+  }
+},
+{
+  "model": "reviews.review",
+  "pk": 3,
+  "fields": {
+    "headline": "Boring!!",
+    "body": "This book is too long! I couldn't even get passed the first few pages without falling asleep!",
+    "rating": 0,
+    "book": 1,
+    "user": 3,
+    "created": "2025-11-04T20:52:58.738Z",
+    "updated": "2025-11-04T20:52:58.738Z"
+  }
+}
+]

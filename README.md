@@ -10,13 +10,30 @@ The project has two Django applications:
 
 ## Setup
 
-Install the dependencies (make sure you are using a virtual environment): `pip install -r requirements.txt`
+Install the dependencies (make sure you are using a virtual environment):
+```bash
+pip install -r requirements.txt
+```
 
-Make sure the database migrations are applied: 
+Apply database migrations:
 ```bash
 python manage.py migrate
 ```
-You can then run the server with
+
+Optional: load the provided fixture data to populate the database with the current sample content (saved at `fixtures/current_data.json`):
+```bash
+# load fixture data (models only)
+python manage.py loaddata fixtures/current_data.json
+```
+
+Note: fixtures contain model data only. Uploaded media files (book cover images) are not included in the JSON fixture. If you need the media files referenced by the fixture, copy a `media/` directory into the project root (or adjust `MEDIA_ROOT`) so the files are available when running the server.
+
+Create a superuser (optional, useful to access the admin):
+```bash
+python manage.py createsuperuser
+```
+
+You can then run the server with:
 ```bash 
 python manage.py runserver
 ```
