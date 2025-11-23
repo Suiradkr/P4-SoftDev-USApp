@@ -11,8 +11,7 @@ class User(AbstractUser):
     first_name = models.CharField(_("first name"), max_length=150, blank=False)
     last_name = models.CharField(_("last name"), max_length=150, blank=False)
 
-    # This is our custom field. Use an asymmetric M2M so "follow" is one-way
-    # (A following B does not automatically make B follow A).
+    # A following B does not automatically make B follow A
     following = models.ManyToManyField("self", symmetrical=False, related_name='followers', blank=True)
 
     @property

@@ -3,6 +3,7 @@ from django.urls import reverse
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.contrib import messages
+from django.db.models import Avg, Count
 from .models import Review, Book
 
 
@@ -65,7 +66,12 @@ class BookSearchView(ListView):
 		q = self.request.GET.get('q', '').strip()
 		if not q:
 			return Book.objects.none()
-		return Book.objects.filter(title__icontains=q).order_by('title')
+		# annotate with average rating and review count for display in templates
+		return (
+			Book.objects.filter(title__icontains=q)
+			.order_by('title')
+			.annotate(avg_rating=Avg('review__rating'), reviews_count=Count('review'))
+		)
 
 
 class BookDetailView(DetailView):
@@ -128,6 +134,12 @@ class CreateReviewView(LoginRequiredMixin, CreateView):
 
 	def form_valid(self, form):
 		"""Attach the book and the current user to the review before saving."""
+		# Ensure rating is within allowed range (defensive server-side check)
+		rating = form.cleaned_data.get('rating')
+		if rating is None or not (0 <= int(rating) <= 5):
+			form.add_error('rating', 'Rating must be an integer between 0 and 5.')
+			return self.form_invalid(form)
+
 		book_pk = self.kwargs.get('pk')
 		book = get_object_or_404(Book, pk=book_pk)
 		form.instance.book = book
@@ -210,6 +222,17 @@ class EditReviewView(LoginRequiredMixin, ReviewOwnerMixin, UpdateView):
 		review = self.get_object()
 		ctx['book'] = review.book
 		return ctx
+
+	def form_valid(self, form):
+		# Validate rating defensively
+		rating = form.cleaned_data.get('rating')
+		if rating is None or not (0 <= int(rating) <= 5):
+			form.add_error('rating', 'Rating must be an integer between 0 and 5.')
+			return self.form_invalid(form)
+
+		response = super().form_valid(form)
+		messages.success(self.request, 'Review updated.')
+		return response
 
 
 class DeleteReviewView(LoginRequiredMixin, ReviewOwnerMixin, DeleteView):

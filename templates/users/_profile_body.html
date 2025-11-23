@@ -1,0 +1,93 @@
+{% comment %}Reusable profile body for both own profile and other users' profile.{% endcomment %}
+<div class="profile-container">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <div>
+      <h1 class="h4 mb-0">{{ subject_user.full_name }}</h1>
+      <p class="meta mb-0">Username: {{ subject_user.username }}{% if subject_user.email %} — Email: {{ subject_user.email }}{% endif %}</p>
+    </div>
+    <div class="text-end">
+      {% if request.user.is_authenticated and request.user != subject_user %}
+        <form method="post" action="{% url 'users:follow' subject_user.pk %}">{% csrf_token %}
+          <button class="btn btn-sm btn-outline-primary" type="submit">{% if is_following %}Unfollow{% else %}Follow{% endif %}</button>
+        </form>
+      {% endif %}
+    </div>
+  </div>
+
+  <p><a href="{% url 'users:profile' %}" class="btn btn-link">Back to my profile</a></p>
+
+  <hr>
+
+  <div class="row mb-3">
+    <div class="col-md-6">
+      <h3 class="h6">Following ({{ following_count }})</h3>
+      {% if following_list %}
+        <ul class="list-group">
+          {% for u in following_list %}
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+              <a href="{% url 'users:profile_detail' u.pk %}">{{ u.full_name }} (@{{ u.username }})</a>
+              <form method="post" action="{% url 'users:follow' u.pk %}">{% csrf_token %}
+                {% if request.user == subject_user %}
+                  <button class="btn btn-sm btn-outline-danger" type="submit">Unfollow</button>
+                {% else %}
+                  {% if u.pk in following_ids %}
+                    <button class="btn btn-sm btn-outline-danger" type="submit">Unfollow</button>
+                  {% else %}
+                    <button class="btn btn-sm btn-outline-primary" type="submit">Follow</button>
+                  {% endif %}
+                {% endif %}
+              </form>
+            </li>
+          {% endfor %}
+        </ul>
+      {% else %}
+        <div class="text-muted">{% if request.user == subject_user %}You are not following anyone yet.{% else %}This user is not following anyone yet.{% endif %}</div>
+      {% endif %}
+    </div>
+    <div class="col-md-6">
+      <h3 class="h6">Followers ({{ followers_count }})</h3>
+      {% if followers_list %}
+        <ul class="list-group">
+          {% for u in followers_list %}
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+              <a href="{% url 'users:profile_detail' u.pk %}">{{ u.full_name }} (@{{ u.username }})</a>
+              <form method="post" action="{% url 'users:follow' u.pk %}">{% csrf_token %}
+                {% if u.pk in following_ids %}
+                  <button class="btn btn-sm btn-outline-danger" type="submit">Unfollow</button>
+                {% else %}
+                  <button class="btn btn-sm btn-outline-primary" type="submit">Follow</button>
+                {% endif %}
+              </form>
+            </li>
+          {% endfor %}
+        </ul>
+      {% else %}
+        <div class="text-muted">{% if request.user == subject_user %}No one is following you yet.{% else %}No followers yet.{% endif %}</div>
+      {% endif %}
+    </div>
+  </div>
+
+  <hr>
+
+  {% if subject_user == request.user %}
+    <h2 class="h5">Find users to follow</h2>
+    <form method="get" action="{% url 'users:search' %}" class="d-flex mb-3">
+      <input type="search" name="q" placeholder="Type a name" class="form-control me-2">
+      <button class="btn btn-primary" type="submit">Search</button>
+    </form>
+    <hr>
+    <h2 class="h5">Your reviews</h2>
+  {% else %}
+    <h2 class="h5">Reviews by {{ subject_user.full_name }}</h2>
+  {% endif %}
+
+  {% if reviews %}
+    <div>
+      {% for review in reviews %}
+        {% include 'reviews/_review_card.html' %}
+      {% endfor %}
+    </div>
+  {% else %}
+    <div class="alert alert-info">{% if subject_user == request.user %}You haven't posted any reviews yet.{% else %}No reviews yet.{% endif %}</div>
+  {% endif %}
+</div>

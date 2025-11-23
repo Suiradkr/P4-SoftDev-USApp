@@ -15,6 +15,13 @@
           <div class="review-border">
             <a href="{% url 'reviews:book_detail' book.pk %}"><strong>{{ book.title }}</strong></a>
             <p>{{ book.description|truncatechars:200 }}</p>
+            <p class="text-muted small">
+              {% if book.avg_rating %}
+                Average rating: {{ book.avg_rating|floatformat:1 }} {% if book.reviews_count %}({{ book.reviews_count }} reviews){% endif %}
+              {% else %}
+                No reviews yet
+              {% endif %}
+            </p>
           </div>
         </li>
       {% endfor %}

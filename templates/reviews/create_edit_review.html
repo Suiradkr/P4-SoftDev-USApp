@@ -23,7 +23,29 @@
 
     <p>
       {{ form.rating.label_tag }}<br>
-      {{ form.rating }}
+      {% comment %}Render radio buttons for rating 0..5 so user can only pick those values{% endcomment %}
+      {% with current=form.rating.value %}
+        <div class="btn-group" role="group" aria-label="Rating selector">
+          <label class="btn btn-outline-secondary {% if current == '0' or current == 0 %}active{% endif %}">
+            <input type="radio" name="rating" value="0" autocomplete="off" {% if current == '0' or current == 0 %}checked{% endif %}> 0
+          </label>
+          <label class="btn btn-outline-secondary {% if current == '1' or current == 1 %}active{% endif %}">
+            <input type="radio" name="rating" value="1" autocomplete="off" {% if current == '1' or current == 1 %}checked{% endif %}> 1
+          </label>
+          <label class="btn btn-outline-secondary {% if current == '2' or current == 2 %}active{% endif %}">
+            <input type="radio" name="rating" value="2" autocomplete="off" {% if current == '2' or current == 2 %}checked{% endif %}> 2
+          </label>
+          <label class="btn btn-outline-secondary {% if current == '3' or current == 3 %}active{% endif %}">
+            <input type="radio" name="rating" value="3" autocomplete="off" {% if current == '3' or current == 3 %}checked{% endif %}> 3
+          </label>
+          <label class="btn btn-outline-secondary {% if current == '4' or current == 4 %}active{% endif %}">
+            <input type="radio" name="rating" value="4" autocomplete="off" {% if current == '4' or current == 4 %}checked{% endif %}> 4
+          </label>
+          <label class="btn btn-outline-secondary {% if current == '5' or current == 5 %}active{% endif %}">
+            <input type="radio" name="rating" value="5" autocomplete="off" {% if current == '5' or current == 5 %}checked{% endif %}> 5
+          </label>
+        </div>
+      {% endwith %}
       {% if form.rating.errors %}
         <div class="errors">{{ form.rating.errors }}</div>
       {% endif %}
@@ -38,7 +60,7 @@
     </p>
 
     <div>
-      <button type="submit">Save</button>
+      <button class="btn btn-primary" type="submit">Save</button>
       <a href="{% url 'reviews:book_detail' book.pk %}">Cancel</a>
     </div>
   </form>

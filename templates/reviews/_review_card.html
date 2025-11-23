@@ -34,6 +34,12 @@
           <p class="mb-1"><span class="badge bg-secondary">Rating: {{ review.rating }} / 5</span></p>
           <p class="card-text">{{ review.body|truncatechars:300 }}</p>
           <p class="card-text"><small class="text-muted">Posted: {{ review.created }}</small></p>
+          {% if user.is_authenticated and review.user == user %}
+            <div class="mt-2">
+              <a href="{% url 'reviews:edit_review' review.book.pk review.pk %}" class="btn btn-sm btn-outline-secondary">Edit</a>
+              <a href="{% url 'reviews:delete_review' review.book.pk review.pk %}" class="btn btn-sm btn-outline-danger">Delete</a>
+            </div>
+          {% endif %}
         </div>
       </div>
     </div>

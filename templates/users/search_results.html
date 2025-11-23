@@ -10,21 +10,23 @@
 
   {% if results %}
     <div class="list-group">
-      {% for u in results %}
+      {% for item in results %}
+        {% with u=item.user %}
         <div class="list-group-item d-flex justify-content-between align-items-center">
           <div>
             <a href="{% url 'users:profile_detail' u.pk %}"><strong>{{ u.full_name }}</strong></a>
-            <div class="text-muted">{{ u.username }}</div>
+            <div class="text-muted">@{{ u.username }}</div>
+            <div class="small text-muted">{{ item.reviews_count }} reviews · {{ item.followers_count }} followers · {{ item.following_count }} following</div>
           </div>
           <div>
             {% if request.user.is_authenticated and request.user != u %}
-              <form method="post" action="{% url 'users:follow' u.pk %}">
-                {% csrf_token %}
+              <form method="post" action="{% url 'users:follow' u.pk %}">{% csrf_token %}
                 <button class="btn btn-sm btn-outline-primary" type="submit">{% if u.pk in following_ids %}Unfollow{% else %}Follow{% endif %}</button>
               </form>
             {% endif %}
           </div>
         </div>
+        {% endwith %}
       {% endfor %}
     </div>
   {% else %}

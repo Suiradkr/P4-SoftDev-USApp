@@ -3,7 +3,9 @@
 {% block content %}
   <div class="d-flex justify-content-between align-items-center mb-3">
     <h1 class="h3 mb-0">All books</h1>
-    <a class="btn btn-outline-secondary" href="{% url 'reviews:create_book' %}">Add a book</a>
+    {% if user.is_authenticated %}
+      <a class="btn btn-outline-secondary" href="{% url 'reviews:create_book' %}">Add a book</a>
+    {% endif %}
   </div>
 
   {% if books %}
