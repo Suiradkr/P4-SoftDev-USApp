@@ -180,6 +180,9 @@ class SignupView(View):
             return redirect('users:profile')
 
         username = request.POST.get('username', '').strip()
+        first_name = request.POST.get('first_name', '').strip()
+        last_name = request.POST.get('last_name', '').strip()
+        email = request.POST.get('email', '').strip()
         password1 = request.POST.get('password1', '')
         password2 = request.POST.get('password2', '')
         errors = []
@@ -201,7 +204,7 @@ class SignupView(View):
                 'form_data': {'username': username},
             })
 
-        user = User.objects.create_user(username=username, password=password1)
+        user = User.objects.create_user(username=username, first_name=first_name, last_name=last_name, email=email, password=password1)
         return render(request, 'users/signup.html', {
             'created': True,
             'username': user.username,
